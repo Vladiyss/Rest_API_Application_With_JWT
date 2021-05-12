@@ -63,7 +63,7 @@ class FactsList extends React.Component {
     render() {
         let loading = this.state.loading;
         let facts = this.state.facts.map((fact) => {
-            return <Fact deleteOne={this.deleteOneFact} key={fact['_id']} fact={fact}/>
+            return <Fact deleteOne={this.deleteOneFact} fact={fact}/>
         });
         return (
             <React.Fragment>
@@ -73,7 +73,7 @@ class FactsList extends React.Component {
                     </IconButton>
                     <Box>
                         <Container>
-                            {loading ? <LinearProgress variant="determinate"/> : facts}
+                            {loading ? <LinearProgress variant="determinate" value="100"/> : facts}
                         </Container>
                     </Box>
                 </Container>

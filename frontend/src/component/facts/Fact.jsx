@@ -21,14 +21,16 @@ import { orange } from "@material-ui/core/colors";
 class Fact extends React.Component {
     constructor(props) {
         super(props);
-        this.state = {fact: props.fact};
+        this.state = {fact: props.fact, key: props.key};
+        console.log(this.state.fact);
+        console.log(this.state.fact.factId);
     }
 
     delete = (e) => {
 
         e.preventDefault();
     
-        deleteFact(this.props.fact['_id'])
+        deleteFact(this.state.fact.factId)
 	        .then(() => {
 	            this.props.deleteOne(this.props.fact);
 	    })
@@ -45,7 +47,7 @@ class Fact extends React.Component {
         e.preventDefault();
 
         if (this.context.currentUser) {
-            let factID = this.props.fact['_id'];
+            let factID = this.state.fact.factId;
             let userID = this.context.currentUser.id;
 
             likeFact(factID)
@@ -83,12 +85,13 @@ class Fact extends React.Component {
                     </CardContent>
                     <img className ="post-image" src={this.props.fact.image} width="480" height="320" />
                     <img src={this.props.fact.image} width="480" height="320" alt={""}/>
+                    <img className ="post-image" src={this.props.fact.photo} width="480" height="320" />
                     <CardActions>
                         <IconButton onClick={this.like} aria-label="Like">
                             <FavoriteIcon/>
                         </IconButton>
                         <Typography>
-                            {this.props.fact.likes.length}
+                            {this.props.fact.likes}
                         </Typography>
                         {
                             this.context.currentUser

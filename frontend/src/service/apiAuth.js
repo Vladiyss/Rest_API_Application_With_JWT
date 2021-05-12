@@ -5,7 +5,8 @@ export const signin = (user) => {
         method: 'POST',
         headers: {
         Accept: 'application/json',
-        'Content-Type': 'application/json'
+        'Content-Type': 'application/json',
+        'Access-Control-Allow-Origin': 'http://localhost:8098/login'
         },
         body: JSON.stringify(user)
     }).then(res => res.json())

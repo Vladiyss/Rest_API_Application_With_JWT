@@ -1,10 +1,11 @@
 const express = require('express');
-const cors = require('cors');
+//const cors = require('cors');
 const mongoose = require("mongoose");
 const bodyParser = require('body-parser');
 const db = require('./application/config/database');
 //const authentication = require('./application/auth');
 const multer = require('multer');
+const authentication = require('./application/config/authentication');
 
 const cookieParser = require('cookie-parser');
 const jwt = require('jsonwebtoken');
@@ -40,16 +41,23 @@ app.use(multer({dest:"public/images", fileFilter: filter}).single("filedata"));
 
 //app.use(bodyParser.urlencoded({extended: true}));
 //app.use(bodyParser.json());
-app.use(cors());
+//app.use(cors());
 
 app.use(parserJson);
 app.use(cookieParser()); 
 app.use(bodyParser.urlencoded({ extended: false }));
+
+const privateRouter = require('./application/route/private_route');
+const publicRouter = require('./application/route/public_route');
+
+app.use('/', publicRouter);
+
 app.use((request, response, next) => {
+    console.log(request.cookies);
     request.cookies.userId = undefined;
     if (request.cookies.token) {
         let clientToken = request.cookies.token;
-        jwt.verify(clientToken, process.env.JWT_KEY, (err, payload) => {
+        jwt.verify(clientToken, authentication.secretKey, (err, payload) => {
             if (err) {
                 console.log(err);
                 next();
@@ -63,10 +71,9 @@ app.use((request, response, next) => {
     }
 })
 
-const privateRouter = require('./application/route/private_route');
-const publicRouter = require('./application/route/public_route');
 
-app.use('/', publicRouter);
+
+
 //app.use(authentication.isAuthorized);
 app.use('/', privateRouter);
 

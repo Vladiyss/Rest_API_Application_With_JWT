@@ -18,6 +18,7 @@ class Login extends React.Component {
 
         this.state = {
             err: '',
+            msg: '',
             email: '',
             password: '',
             signedIn: false
@@ -52,12 +53,18 @@ class Login extends React.Component {
 		        }
 	            if (res.err) {
 		            this.setState({err: res.err});
-		        } else {
-		            console.log(res); 
-		            this.setState({signedIn: true, userId: res.user._id});
-                    this.context.login(res.user);
-                    this.props.history.push(Routes.facts);
+                    return;
 		        }
+                if (res.message) {
+		            this.setState({msg: res.message});
+                    return;
+		        }
+
+		        console.log(res); 
+		        this.setState({signedIn: true, userId: res.user._id});
+                this.context.login(res.user);
+                this.props.history.push(Routes.facts);
+		        
 	    });
 
         /*let resultPromise = this.context.login(email, password);

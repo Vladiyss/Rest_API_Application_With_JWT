@@ -15,6 +15,7 @@ import Axios from "axios";
 
 class CreateFact extends React.Component {
     constructor() {
+        super();
         this.onChangeFile = this.onChangeFile.bind(this);
     }
 

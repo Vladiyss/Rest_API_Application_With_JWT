@@ -1,9 +1,15 @@
 import {endPoints} from "../constant/endPoints";
 
 export const getAllFacts = (order) => {
-    return fetch(endPoints.getFactsList + `?sort=likes&order=${order ? 1 : -1}`)
+    return fetch(endPoints.getFactsList + `?sort=likes&order=${order ? 1 : -1}`,
+    {
+      method: 'GET',
+      headers: {
+        Accept: 'application/json',
+      }
+  })
         .then(response => {
-            return response.json()
+            return response.json();
         })
         .catch(err => console.log(err));      
   }
@@ -14,17 +20,19 @@ export const createFact = (fact) => {
         headers: {
           Accept: 'application/json',
         },
+        credentials: 'include',
         body: fact
     }).then(response => response.json());
   }
-  
+
 export const likeFact = (factId) => {
     return fetch(endPoints.putFact(factId), {
         method: 'PUT',
         headers: {
         Accept: 'application/json',
-        'Content-Type': 'application/json',
+        'Content-Type': 'application/json'
         },
+        credentials: 'include',
         body: JSON.stringify({factId: factId})
     }).then(response => response.json());
   }

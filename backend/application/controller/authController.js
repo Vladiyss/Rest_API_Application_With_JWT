@@ -5,15 +5,18 @@ const authentication = require('../config/authentication');
 
 function authorize(response, user) {
 	let token = jwt.sign({userId: user._id}, authentication.secretKey);
-	let maxAge = 3600;
+	let maxAge = 36000000;
 	response.setHeader('Set-Cookie', `token=${token}; max-age=${maxAge}; HttpOnly`);
+    console.log(token);
     response.status(200).json({
-	  user: user,
+	  user: user
 	});
 }
 
 
 exports.requireSignin = (request, response, next) => {
+    console.log(request);
+
     if (request.cookies.userId) {
         next();
     } else {

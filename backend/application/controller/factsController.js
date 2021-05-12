@@ -3,10 +3,10 @@ const ObjectId = require('mongoose').Types.ObjectId;
 
 exports.getAllFacts = (request, response) => {
     console.log('Try to get facts');
-    if (!request.cookies?.userId) {
+    /*if (!request.cookies?.userId) {
         response.status(401).send("Need to log in");
 	    return;
-    }
+    }*/
     
     Fact.find().sort({[request.query.sort]: request.query.order}).exec((err, facts) => {
         /*if (err) {
@@ -140,6 +140,9 @@ exports.getById = (request, response) => {
 
 exports.update = (request, response) => {
     console.log('Try to update fact');
+    
+    console.log(request);
+    
     if (request.cookies === undefined || request.cookies.userId === undefined) {
         response.send("Need to log in");
 	    return;

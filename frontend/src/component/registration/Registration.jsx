@@ -70,7 +70,7 @@ class Registration extends React.Component {
                     this.setState({error: response.err});
                 } else {
                     this.setState({signedUp: true, userId: response.userId});
-                    this.context.registration(response.body.user);
+                    this.context.registration(response.user);
                     this.props.history.push(Routes.facts);
                 }
         
